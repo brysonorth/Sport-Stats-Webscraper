@@ -2,7 +2,21 @@ import urllib.request, urllib.parse, urllib.error
 from bs4 import BeautifulSoup
 from datetime import datetime
 x = 0
+i = 0
 currentYear = datetime.now().year
+stats = dict()
+
+pointTypeDic = {'games played' : 'games_played', 
+'age' : 'age',
+'goals' : 'goals',
+'assists' : 'assists',
+'points' : 'points',
+'plus/minus' : 'plus_minus',
+'penalty minutes' : 'pen_min',
+'shots' : 'shots',
+'blocks' : 'blocks',
+'hits' : 'hits',
+'faceoff%' : 'faceoff_percentage'}
 print ('\033[1m' + 'NHL Stat Finder' + '\033[0m')
 
 while True: #Loop that ensures stats dictionary is full with stats from season
@@ -28,42 +42,38 @@ while True: #Loop that ensures stats dictionary is full with stats from season
     html = urllib.request.urlopen(url).read()
     soup = BeautifulSoup(html, 'html.parser')
     #putting html into beautiful soup
-
     tags = soup('tr') #finds all 'tr' tags within soup
-    stats = dict()
-    pointTypeDic = {'games played' : 'games_played', 
-    'age' : 'age',
-    'goals' : 'goals',
-    'assists' : 'assists',
-    'points' : 'points',
-    'plus/minus' : 'plus_minus',
-    'penalty minutes' : 'pen_min',
-    'shots' : 'shots',
-    'blocks' : 'blocks',
-    'hits' : 'hits',
-    'faceoff percentage' : 'faceoff_percentage'}
 
-    while True: #Loop to ensure stat is available from scraped stats
-        pointType = input('Which stat do you want to see? ')
+    def statChecker(statListFunc): #function checks if input stats are in pointTypeDic
+        for statType in statList:
+            if statType not in pointTypeDic:
+                print('\n')
+                print(statType, '''is not an available stat. Select a stat from the list
+            Games Played 
+            Age 
+            Goals
+            Assists
+            Points 
+            Plus/Minus
+            Penalty Minutes 
+            Shots 
+            Blocks
+            Hits 
+            Faceoff% ''')
+                return None
+        return statListFunc
+
+    while True: #Loop checks if input stats are available to view in pointTypeDic
+        pointType = input('Which stats do you want to see? ')
         pointType = pointType.lower()
-        if pointType not in pointTypeDic:
-            print('\n')
-            print(pointType, '''is not an available stat. Select a stat from the list
-    Games Played 
-    Age 
-    Goals
-    Assists
-    Points 
-    Plus/Minus
-    Penalty Minutes 
-    Shots 
-    Blocks
-    Hits 
-    Faceoff Percentage ''')
+        statList = pointType.split() #splits pointType inputs into list
+
+        if statChecker(statList) == None:
+             #checks return of statChecker. If no error breaks loop, else continue
             continue
         else:
             break
-
+              
     for tag in tags: 
         name = tag.find('a') #finds 'a'attr within 'tr' tag
         points = tag.find('td', {'data-stat':pointTypeDic[pointType]}) #finds pointTypea within 'td' tag
@@ -99,7 +109,7 @@ while True:
         continue
 
 print('\n')
-print ('\033[1m' + 'Most ' + pointType.capitalize() + '\033[0m') #bolds text 'Most 'pointType'
+print ('\033[1m'  + pointType.capitalize() +  ' Leaders ' + season + '\033[0m') #bolds text 'Most 'pointType'
 
 orderedByPoints = sorted(orderedByPoints, reverse = True)
 for k,v in orderedByPoints[:numberPlayers]:
