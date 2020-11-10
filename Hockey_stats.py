@@ -14,11 +14,11 @@ pointTypeDic = {'games played' : 'games_played',
 'assists' : 'assists',
 'points' : 'points',
 'plus/minus' : 'plus_minus',
-'penalty minutes' : 'pen_min',
+'penalty-minutes' : 'pen_min',
 'shots' : 'shots',
 'blocks' : 'blocks',
 'hits' : 'hits',
-'faceoff%' : 'faceoff_percentage'}
+'faceoff-%' : 'faceoff_percentage'}
 print ('\033[1m' + 'NHL Stat Finder' + '\033[0m')
 
 while True: #Loop that ensures stats dictionary is full with stats from season
@@ -58,11 +58,11 @@ while True: #Loop that ensures stats dictionary is full with stats from season
             Assists
             Points 
             Plus/Minus
-            Penalty Minutes 
+            Penalty-Minutes 
             Shots 
             Blocks
             Hits 
-            Faceoff% ''')
+            Faceoff-% ''')
                 return None
         return statListFunc
 
@@ -82,7 +82,7 @@ while True: #Loop that ensures stats dictionary is full with stats from season
     def webScraper(stat):     
         for tag in tags: 
             name = tag.find('a') #finds 'a'attr within 'tr' tag
-            points = tag.find('td', {'data-stat':stat}) #finds pointTypea within 'td' tag
+            points = tag.find('td', {'data-stat':pointTypeDic[stat]}) #finds pointTypea within 'td' tag
             try:
                 points = int(points.string) #if int: convert to int for sorting later
                 stats[name.string] = points #addds to dict
