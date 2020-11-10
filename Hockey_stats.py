@@ -2,7 +2,6 @@ import urllib.request, urllib.parse, urllib.error
 from bs4 import BeautifulSoup
 from datetime import datetime
 x = 0
-i = 0
 currentYear = datetime.now().year
 stats = dict()
 listOfStatDic = list()
@@ -47,8 +46,8 @@ while True: #Loop that ensures stats dictionary is full with stats from season
     #putting html into beautiful soup
     tags = soup('tr') #finds all 'tr' tags within soup
 
-    def statChecker(statListFunc): #function checks if input stats are in pointTypeDic
-        for statType in statListFunc:
+    def statChecker(statList): #function checks if input stats are in pointTypeDic
+        for statType in statList:
             if statType not in pointTypeDic:
                 print('\n')
                 print(statType, '''is not an available stat. Select a stat from the list
@@ -64,7 +63,7 @@ while True: #Loop that ensures stats dictionary is full with stats from season
             Hits 
             Faceoff-% ''')
                 return None
-        return statListFunc
+        return statList
 
     while True: #Loop checks if input stats are available to view in pointTypeDic
         pointType = input('Which stats do you want to see? ')
@@ -101,10 +100,9 @@ while True: #Loop that ensures stats dictionary is full with stats from season
                 print(pointType.capitalize(), 'not available for', season)
                 return None
             else:
-                webScraper(stat)
-                statsCopy = stats.copy()
+                statsCopy = webScraper(stat).copy()
                 listOfStatDic.append(statsCopy) #appends stats dict copy for each stat type. Now have list of dicitonaries
-                return listOfStatDic
+        return listOfStatDic
     
     if statAppend(statList) == None:
         continue 
