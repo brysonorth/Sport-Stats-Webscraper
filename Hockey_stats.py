@@ -1,7 +1,6 @@
 import urllib.request, urllib.parse, urllib.error
 from bs4 import BeautifulSoup
 from datetime import datetime
-x = 0
 currentYear = datetime.now().year
 stats = dict()
 listOfStatDic = list()
@@ -108,12 +107,6 @@ while True: #Loop that ensures stats dictionary is full with stats from season
         continue 
     else: 
         break
-    
-orderedByPoints = list()
-for k,v in stats.items():
-    temp = (v,k)
-    orderedByPoints.append(temp)
-    #appends dict items into list of tuples
 
 while True:
     numberPlayers = input('How many players do you want to see? ')
@@ -125,9 +118,19 @@ while True:
         print('Enter an integer.')
         continue
 
-print('\n')
-print ('\033[1m'  + pointType.capitalize() +  ' Leaders ' + season + '\033[0m') #bolds text 'Most 'pointType'
+i=0
+#print('\n')
+for dictIndex in listOfStatDic:
+    orderedByPoints = list()
+    for k,v in dictIndex.items():
+        temp = (v,k)
+        orderedByPoints.append(temp)
+        #appends dict items into list of tuples
 
-orderedByPoints = sorted(orderedByPoints, reverse = True)
-for k,v in orderedByPoints[:numberPlayers]:
-    print(v,k) #prints players name then the corresponding stat from list of reversed tuples
+    print('\n')
+    print('\033[1m'  + statList[i].capitalize() +  ' Leaders ' + season + '\033[0m') #bolds text 'Most 'pointType'
+    i = i + 1
+
+    orderedByPoints = sorted(orderedByPoints, reverse = True)
+    for k,v in orderedByPoints[:numberPlayers]:
+        print(v,k) #prints players name then the corresponding stat from list of reversed tuples
