@@ -100,8 +100,8 @@ while True: #Loop that ensures stats dictionary is full with stats from season
                 return None
             else:
                 statsCopy = webScraper(stat).copy()
-                listOfStatDic.append(statsCopy)
-                stats.clear() #appends stats dict copy for each stat type. Now have list of dicitonaries
+                listOfStatDic.append(statsCopy) #appends stats dict copy for each stat type. Now have list of dicitonaries
+                stats.clear() 
         return listOfStatDic
     
     if statAppend(statList) == None:
@@ -120,8 +120,8 @@ while True:
         continue
 
 i=0
-#print('\n')
-for dictIndex in listOfStatDic:
+#block orders listOfStatDic by values and prints to screen based on highest values
+for dictIndex in listOfStatDic: #dictIndex is the dictionary in the list of dictionaries
     orderedByPoints = list()
     for k,v in dictIndex.items():
         temp = (v,k)
