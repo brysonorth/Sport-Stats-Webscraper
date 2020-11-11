@@ -96,11 +96,12 @@ while True: #Loop that ensures stats dictionary is full with stats from season
     def statAppend(statList): 
         for stat in statList:
             if not bool(webScraper(stat)): # if stats is empty returns None and loop continues from start
-                print(pointType.capitalize(), 'not available for', season)
+                print(stat.capitalize(), 'not available for', season)
                 return None
             else:
                 statsCopy = webScraper(stat).copy()
-                listOfStatDic.append(statsCopy) #appends stats dict copy for each stat type. Now have list of dicitonaries
+                listOfStatDic.append(statsCopy)
+                stats.clear() #appends stats dict copy for each stat type. Now have list of dicitonaries
         return listOfStatDic
     
     if statAppend(statList) == None:
@@ -127,10 +128,12 @@ for dictIndex in listOfStatDic:
         orderedByPoints.append(temp)
         #appends dict items into list of tuples
 
-    print('\n')
-    print('\033[1m'  + statList[i].capitalize() +  ' Leaders ' + season + '\033[0m') #bolds text 'Most 'pointType'
-    i = i + 1
+    if i < len(statList):
+        print('\n')
+        print('\033[1m'  + statList[i].capitalize() +  ' Leaders ' + season + '\033[0m') #bolds text 'Most 'pointType'
+        i = i + 1
 
     orderedByPoints = sorted(orderedByPoints, reverse = True)
     for k,v in orderedByPoints[:numberPlayers]:
         print(v,k) #prints players name then the corresponding stat from list of reversed tuples
+
